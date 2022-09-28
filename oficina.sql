@@ -5,11 +5,17 @@ USE OFICINA;
 show databases;
 desc carro;
 select*from Cliente;
-select distinct * from Cliente c,Carro ca,Mecanico m,MecanicoReparo mr,Reparo r
-where c.idCliente = ca.idCliente and ca.idCarro = m.idMecanico and m.idMecanico = mr.id_meca_rl and r.idReparo = mr.id_repar_rl;
-select concat(c.nome,' ',sobrenome) as nome_completo, c.telefone, ca.modelo, ca.cor, m.nome,r.gravidade,r.previsao
-from Cliente c,Carro ca,Mecanico m,MecanicoReparo mr,Reparo r
-where c.idCliente = ca.idCliente and ca.idCarro = m.idMecanico and m.idMecanico = mr.id_meca_rl and r.idReparo = mr.id_repar_rl;
+select*from MaoDeObra;
+select*from OS;
+select*from PecasValor , OS;
+
+
+select distinct * from Cliente c,Carro ca,Mecanico m,MecanicoReparo mr,Reparo r, OS os, PecasValor pv
+where c.idCliente = ca.idCliente and ca.idCarro = m.idMecanico and m.idMecanico = mr.id_meca_rl and os.idPecas = pv.idPecas; -- r.idReparo = mr.id_repar_rl; idOs
+
+select concat(c.nome,' ',sobrenome) as nome_completo, c.telefone, ca.modelo, ca.cor, m.nome,r.gravidade,r.previsao,os.valor,pv.descrição
+from Cliente c,Carro ca,Mecanico m,MecanicoReparo mr,Reparo r,OS os, PecasValor pv
+where c.idCliente = ca.idCliente and ca.idCarro = m.idMecanico and m.idMecanico = mr.id_meca_rl and r.idReparo = mr.id_repar_rl and os.idPecas = pv.idPecas;
 
 -- VEICULO
 select*from Carro;
@@ -79,7 +85,7 @@ alter table OS add constraint fk_pecas foreign key(idPecas) references PecasValo
 alter table OS add constraint fk_mao foreign key(idTabelaMao) references MaoDeObra(idTabelaMao);
 
 insert into OS (dataEmissao,dataEntrega,idPecas,idMaoObra,valor)
-values('17:09:2017','17:09:2017',xxx,xxx,xxx);
+values('2017-09-27 12:00:00','2017-09-28 12:00:00',3,3,15000.00);
 alter table OS auto_increment=1;
 -- TABELA DE MÃO DE OBRA DOS MECANICOS
 
